@@ -12,7 +12,7 @@ def make_multiplier(multipiler: float) -> Callable[[float], float]:
         """
         Returns the multiplicaiton of the floats
         """
-        return x * multipiler
+        return multipiler * x
 
 
     return multipiler_func
