@@ -8,11 +8,11 @@ def make_multiplier(multipiler: float) -> Callable[[float], float]:
     Multiplies a float by a float
     """
 
-    def multipiler_func(x: float) -> float:
+    def multipiler_func(number: float) -> float:
         """
         Returns the multiplicaiton of the floats
         """
-        return multipiler * x
+        return multipiler * number
 
 
     return multipiler_func
