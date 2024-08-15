@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
-"""A function that takes a float and returns the multipiles of it"""
-
+"""A function that takes a float and returns a function that multiplies it by another float."""
 
 from typing import Callable
 
-
-def make_multiplier(multipiler: float) -> Callable[[float], float]:
+def make_multiplier(multiplier: float) -> Callable[[float], float]:
     """
-    Multiplies a float by a float
+    Returns a function that multiplies a given float by the specified multiplier.
     """
-    def multipiler_func(x: float) -> float:
-        """Returns the multiplicaiton of the floats"""
-        return multipiler * x
+    def multiplier_func(x: float) -> float:
+        """Returns the result of multiplying the given float by the multiplier."""
+        return multiplier * x
 
-
-    return multipiler_func
+    return multiplier_func
