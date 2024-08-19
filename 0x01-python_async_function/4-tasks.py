@@ -13,6 +13,7 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
 
     Args:
         max_delay (int): The maximum delay in seconds for wait_random.
+        n (int): The number of arguments passed and printed on the screen
 
     Returns:
         A list of floats, randomly generated
