@@ -1,5 +1,6 @@
-#!/usr/bin/env python3 
-"""An async function that takes 2 arguments and returns floats in specfic time delays"""
+#!/usr/bin/env python3
+"""An async function that takes 2 arguments and
+returns floats in specfic time delays"""
 
 
 import asyncio
