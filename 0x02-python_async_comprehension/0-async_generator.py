@@ -9,14 +9,14 @@ from typing import Generator
 
 async def async_generator() -> Generator[float, None, None]:
     """
-    Generates an random number between 1 and 10
+    Generates a random float between 1 and 10
     after waiting 1 second
 
     Args:
         Takes no arguments
 
     Returns:
-            Random float between 1 and 10
+            Nothing
     """
     for i in range(10):
         await asyncio.sleep(1)
