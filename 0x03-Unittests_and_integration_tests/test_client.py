@@ -4,41 +4,41 @@
 import unittest
 from client import GithubOrgClient
 from parameterized import parameterized
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, PropertyMock
 
 
 class TestGithubOrgClient(unittest.TestCase):
     @parameterized.expand([
         ("google"),
         ("abc"),
-        ])
+    ])
     @patch('client.get_json', return_value={"payload": True})
-    def test_org(self, org, mock_org):
-        """Test GithubOrgClients org"""
+    def test_org(self, org, mock_get_json):
+        """Test GithubOrgClient's org"""
         org_test = GithubOrgClient(org)
         test_response = org_test.org
-        self.assertEqual(test_response, mock_org.return_value)
-        mock_org.assert_called_once()
+        self.assertEqual(test_response, mock_get_json.return_value)
+        mock_get_json.assert_called_once()
 
     def test_public_repos_url(self):
-        """test the property of a public repos url"""
+        """Test the property of a public repos URL"""
         with patch(
-                "GithubOrgClient.org", new_callable=PropertyMock,
+                'client.GithubOrgClient.org', new_callable=PropertyMock
                 ) as mock_org:
             mock_org.return_value = {
-                    'repos_url': "https://api.github.com/users/google/repos",
-                    }
+                'repos_url': "https://api.github.com/users/google/repos",
+            }
             self.assertEqual(
-                    GithubOrgClient("google")._public_repos_url,
-                    "https://api.github.com/users/google/repos",
-                    )
+                GithubOrgClient("google")._public_repos_url,
+                "https://api.github.com/users/google/repos",
+            )
 
-    @parametrized.expand([
+    @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
-        ({"license": {"key": "other_license"}}, "ohter_license", False)
-        ])
+        ({"license": {"key": "other_license"}}, "other_license", False)
+    ])
     def test_has_license(self, repo, license_key, expected):
-        """A test that checks whether GithubOrgClient has a license"""
+        """Test whether GithubOrgClient has a license"""
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
 
