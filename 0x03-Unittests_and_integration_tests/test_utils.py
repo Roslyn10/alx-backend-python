@@ -43,6 +43,5 @@ class TestGetJson(unittest.TestCase):
             req_get.assert_called_once_with(test_url)
 
 
-
 if __name__ == '__main__':
     unittest.main()
