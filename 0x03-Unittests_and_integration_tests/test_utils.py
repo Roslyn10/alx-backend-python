@@ -55,11 +55,11 @@ class TestMemoize(unittest.TestCase):
             @memoize
             def a_property(self):
                 return self.a_method()
-            with patch.object(TestClass, 'a_method') as mock_object:
-                test = TestClass()
-                test.a_property()
-                test.a_property
-                mock_object.assert_called_once()
+        with patch.object(TestClass, 'a_method') as mock_object:
+            test = TestClass()
+            test.a_property()
+            test.a_property
+            mock_object.assert_called_once()
 
 
 if __name__ == '__main__':
