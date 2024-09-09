@@ -65,9 +65,20 @@ class TestIntergrationGithubOrgClient(unittest.TestCase):
     focusing on extrnal requests"""
 
     def setUpClass(cls):
-        """Set up the test environment before any test methods are run"""
-        self.org_name = "google"
-        self.client = GithubOrgClient(self.org_name)
+        """Set up the test environment before any test methods are run."""
+        cls.org_name = "google"
+        cls.client = GithubOrgClient(cls.org_name)
+        cls.org_payload = {"https://api.github.com/orgs/google/repos"}
+        cls.repos_payload = [
+            {"name": "repo1", "license": {"key": "mit"}},
+            {"name": "repo2", "license": {"key": "apache-2.0"}}
+        ]
+        cls.expected_repos = ["repo1", "repo2"]
+
+        cls.get_patcher = patch('client.get_json', side_effect=[
+            cls.org_payload, cls.repos_payload
+            ])
+        cls.mock_get_json = cls.get_patcher.start()
 
     def test_public_repos(self):
         """Test public_repos method against mock data"""
@@ -76,17 +87,16 @@ class TestIntergrationGithubOrgClient(unittest.TestCase):
         self.assertEqual(test_class.org, self.org_payload)
         self.assertEqual(test_class.repos_payload, self.repos_payload)
         self.assertEqual(test_class.public_repos(), self.expected_repos)
-        self.assertEqual(test_class.public_repos("LICENSE"), [])
+        self.assertEqual(test_class.public_repos("LICENSE"), ["repo2"])
         self.mock.assert_called()
 
-    def test_public_repos_wih_license(self):
-        """Test public_repos_with_license againt the apache-2.0"""
-        test_class = GithubOrgClient("google")
-
-        self.assertEqual(test_class.public_repos(), self.expected_repos)
-        self.assertEqual(test_class.public_repos("License", [])
-        self.assertequal(test_class.publicrepos("apache-2.0"), self.apache2_repos)
-        self.mock.assert_called()
+    def test_public_repos(self):
+        """Test public_repos method against mock data."""
+        self.assertEqual(self.client.org, self.org_payload)
+        self.assertEqual(self.client.repos_payload, self.repos_payload)
+        self.assertEqual(self.client.public_repos(), self.expected_repos)
+        self.assertEqual(self.client.public_repos("apache-2.0"), ["repo2"])
+        self.mock_get_json.assert_called()
 
     def tearDownClass(cls):
         """Tear down the test environment after all test methods haverun"""
