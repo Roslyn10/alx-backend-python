@@ -22,7 +22,9 @@ class TestGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_url(self):
         """test the property of a public repos url"""
-        with patch("GithubOrgClient.org", new_callable=PropertyMock,) as mock_org:
+        with patch(
+                "GithubOrgClient.org", new_callable=PropertyMock,
+                ) as mock_org:
             mock_org.return_value = {
                     'repos_url': "https://api.github.com/users/google/repos",
                     }
@@ -31,6 +33,14 @@ class TestGithubOrgClient(unittest.TestCase):
                     "https://api.github.com/users/google/repos",
                     )
 
+    @parametrized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "ohter_license", False)
+        ])
+    def test_has_license(self, repo, license_key, expected):
+        """A test that checks whether GithubOrgClient has a license"""
+        result = GithubOrgClient.has_license(repo, license_key)
+        self.assertEqual(result, expected)
 
 
 if __name__ == '__main__':
