@@ -18,6 +18,11 @@ class TestAccessNestedMap(unittest.TestCase):
         """Test access_nested_map with various inputs"""
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
+        def test_access_nested_map_exception(self, nested_map, path, expected):
+            """Test access_nested_map while raising an exception"""
+            with self.assertRaises(exception):
+                access_nested_map(nested_map, path)
+
 
 if __name__ == '__main__':
     unittest.main()
