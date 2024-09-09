@@ -42,6 +42,22 @@ class TestGithubOrgClient(unittest.TestCase):
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
 
+class TestIntergrationGithubOrgClient(unittest.TestCase):
+    """A class that tests only mock code that sends external requests"""
+
+    def setUpClass(cls):
+        """Setting up the tests before each method"""
+        self.org_name = "google"
+        self.client = GithubOrgClient(self.org_name)
+
+
+    def test_public_repos(self):
+
+
+    def tearDownClass(cls):
+        """Tears down the test environment"""
+        cls.get_patcher.stop()
+
 
 if __name__ == '__main__':
     unittest.main()
