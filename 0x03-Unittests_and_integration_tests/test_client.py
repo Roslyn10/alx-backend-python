@@ -60,10 +60,11 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-class TestIntergrationGithubOrgClient(unittest.TestCase):
-    """Integration test class for GithbOrgClient,
-    focusing on extrnal requests"""
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """Integration test class for GithubOrgClient,
+    focusing on external requests."""
 
+    @classmethod
     def setUpClass(cls):
         """Set up the test environment before any test methods are run."""
         cls.org_name = "google"
@@ -81,16 +82,6 @@ class TestIntergrationGithubOrgClient(unittest.TestCase):
         cls.mock_get_json = cls.get_patcher.start()
 
     def test_public_repos(self):
-        """Test public_repos method against mock data"""
-        test_class = GithubOrgClient("google")
-
-        self.assertEqual(test_class.org, self.org_payload)
-        self.assertEqual(test_class.repos_payload, self.repos_payload)
-        self.assertEqual(test_class.public_repos(), self.expected_repos)
-        self.assertEqual(test_class.public_repos("LICENSE"), ["repo2"])
-        self.mock.assert_called()
-
-    def test_public_repos(self):
         """Test public_repos method against mock data."""
         self.assertEqual(self.client.org, self.org_payload)
         self.assertEqual(self.client.repos_payload, self.repos_payload)
@@ -98,8 +89,9 @@ class TestIntergrationGithubOrgClient(unittest.TestCase):
         self.assertEqual(self.client.public_repos("apache-2.0"), ["repo2"])
         self.mock_get_json.assert_called()
 
+    @classmethod
     def tearDownClass(cls):
-        """Tear down the test environment after all test methods haverun"""
+        """Tear down the test environment after all test methods have run."""
         cls.get_patcher.stop()
 
 
