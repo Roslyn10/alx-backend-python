@@ -33,6 +33,21 @@ class TestGithubOrgClient(unittest.TestCase):
                 "https://api.github.com/users/google/repos",
             )
 
+    @patch("client.get_json")
+    def test_public_repos(self, mock_get_json):
+        """test the public repo"""
+    with patch('client.GithubOrgClient._public_repos_url',
+               new_callable=PropertyMock) as mock_public:
+
+        mock_public.return_value = "https://api.github.com/org/repos"
+        test_class = GithubOrgClient("test")
+        result = test_class.public_repos()
+
+        expected = [item["name"] for item in payload]
+        self.assertEqual(result, expected)
+        mock_public.assert_called_once()
+        mock_json.assert_called_once()
+
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "other_license", False)
@@ -42,17 +57,15 @@ class TestGithubOrgClient(unittest.TestCase):
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
 
+
 class TestIntergrationGithubOrgClient(unittest.TestCase):
     """A class that tests only mock code that sends external requests"""
-
     def setUpClass(cls):
         """Setting up the tests before each method"""
         self.org_name = "google"
         self.client = GithubOrgClient(self.org_name)
 
-
-    def test_public_repos(self):
-
+    """def test_public_repos(self):"""
 
     def tearDownClass(cls):
         """Tears down the test environment"""
