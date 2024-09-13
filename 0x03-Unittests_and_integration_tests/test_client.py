@@ -14,13 +14,12 @@ class TestGithubOrgClient(unittest.TestCase):
         ("google"),
         ("abc"),
     ])
-    @patch('client.get_json', return_value={"payload": True})
-    def test_org(self, org, mock_get_json):
+    @patch('client.get_json')
+    def test_org(self, input, mock_get_json):
         """Test GithubOrgClient.org returns the correct data"""
-        org_test = GithubOrgClient(org)
+        org_test = GithubOrgClient(input)
         test_response = org_test.org
-        self.assertEqual(test_response, mock_get_json.return_value)
-        mock_get_json.assert_called_once()
+        mock_get_json.called_with_once(orf_test.ORG_URL.format(org=input))
 
     def test_public_repos_url(self):
         """Test the _public_repos_url property"""
